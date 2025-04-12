@@ -75,17 +75,59 @@
                     text-transform: uppercase;
                 }
 
-                input, textarea { 
+                input,
+                textarea {
                     background-color: $secondary;
                     color: $primary;
                     padding: .25rem;
                     border-bottom: 3px solid darken($secondary, 10%);
-                
+
                     &:focus {
                         border-color: $primary;
                         outline: none;
                     }
                 }
+            }
+        }
+    }
+
+    .projectMain {
+        margin: 0 auto;
+        width: 85%;
+        align-items: flex-start;
+        .projectMainHeader {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+
+            .mainBtn {
+                font-weight: 500;
+                color: $secondary;
+            }
+        }
+        
+        .projectMainDescription {
+            color: lighten($primary, 5%);
+        }
+
+        .breakLine {
+            height: 3px;
+            background-color: $secondary;
+            width: 100%;
+        }
+
+        form {
+            input {
+                background-color: lighten($secondary, 30%);
+                border-radius: 2px;
+                color: $primary;
+                outline-color: lightskyblue;
+            }
+        }
+
+        .projectList {
+            .noProjectsList {
+                color: darken($primary, 30%);
             }
         }
     }

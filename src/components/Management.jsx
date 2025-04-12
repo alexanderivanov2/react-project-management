@@ -5,7 +5,7 @@ import styles from './Management.module.scss'
 
 function Management() {
   return (
-    <div class={styles.managementContainer }>
+    <div className={styles.managementContainer }>
         <Sidebar />
         <Main />
     </div>
