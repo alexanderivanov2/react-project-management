@@ -21,9 +21,10 @@ function AddProject({changePage, updateProjects}) {
             name,
             description: projectDescriptionRef.current.value,
             dueDate,
+            tasks: [],
         }
 
-        updateProjects('add', newProject);
+        updateProjects('add', newProject.id, newProject);
         changePage('project');
     }
     return (

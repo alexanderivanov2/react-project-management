@@ -12,6 +12,9 @@ function Management() {
   console.log(selectedProject);
 
   const sideBarList = projects.map(({id, name}) => ({name, id}))
+  const currentProject = projects.find(({id}) => selectedProject === id)
+
+  console.table(currentProject)
 
   const handleSetSelectedProject = (id) => {
     setSelectedProject(id);
@@ -21,11 +24,12 @@ function Management() {
     setCurrentPage(pageName);
   }
 
-  const updateProjects = (action, payload = {}, id) => {
-
+  const updateProjects = (action, id, payload = {}) => {
     setProjects(prevProjects => {
       if (action === 'add' && payload.name) {
         return [...prevProjects, payload]
+      } else if (action === 'delete' && id) {
+        return [...prevProjects.filter(({prevProjectId}) => id !== prevProjectId)]
       }
     })
 
@@ -44,13 +48,18 @@ function Management() {
       tasks: []
     }
 
-    updateProjects('add', test);
+    updateProjects('add', test.id, test);
   }
 
   return (
     <div className={styles.managementContainer}>
       <Sidebar changePage={handleChangePage} changeProject={handleSetSelectedProject} sideBarList={sideBarList} selectedId={selectedProject}/>
-      <Main changePage={handleChangePage} page={currentPage} updateProjects={updateProjects} />
+      <Main 
+        changePage={handleChangePage}
+        page={currentPage}
+        updateProjects={updateProjects} 
+        currentProject={currentProject}  
+      />
     </div>
   )
 }
