@@ -3,7 +3,6 @@ import styles from './Main.module.scss'
 function AddProject({changePage}) {
 
     const handleCancel = (e) => {
-        console.log(e);
         e.preventDefault();
         changePage('noProject')
     }
