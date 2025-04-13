@@ -50,7 +50,7 @@ function Management() {
 
         if (action === 'add') {
             handleSetSelectedProject(payload.id);
-        } else if (action === 'delete') {
+        } else if (action === 'delete' && selectedProject === id) {
             handleSetSelectedProject()
         }
     }
