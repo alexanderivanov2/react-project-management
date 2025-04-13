@@ -4,10 +4,7 @@ import NoProjectSelected from './NoProjectSelected'
 import AddProject from './AddProject'
 import Project from './Project'
 
-function Main({changePage, page}) {
-
-
-
+function Main({changePage, updateProjects, page}) {
   return (
     <div className={styles.mainContainer}>
       {page === 'noProject'
@@ -17,7 +14,7 @@ function Main({changePage, page}) {
         (page === 'project' 
           ?
             <Project />
-          : <AddProject changePage={changePage} />
+          : <AddProject changePage={changePage} updateProjects={updateProjects}/>
         )
       }
     </div>
