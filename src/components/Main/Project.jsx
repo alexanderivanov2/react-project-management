@@ -11,9 +11,13 @@ function Project({currentProject, updateProjects}) {
     const handleAddTask = (e) => {
         e.preventDefault();
         const task = taskRef.current.value
-        console.log(task);
+        updateProjects('addTask', id, task)
     }
 
+    const handleDeleteTask = (index) => {
+        console.log(index);
+        updateProjects('removeTask', id, index);
+    }
     return (
         <div className={`${styles.mainWrapper} ${styles.projectMain}`}>
             <div className={styles.projectMainHeader}>
@@ -30,6 +34,14 @@ function Project({currentProject, updateProjects}) {
             </form>
             <div className={styles.projectList}>
                 <p className={`${styles.mainText} ${styles.noProjectsList}`}>This project does not have any tasks yet.</p>
+                <ul>
+                    {tasks.length &&tasks.map((task, index) => (
+                        <li key={index}>
+                            {task} 
+                            <button onClick={() => handleDeleteTask(index)} className={styles.mainBtn}>Cancel</button>
+                        </li>
+                    ))}
+                </ul>
             </div>
         </div>
     )

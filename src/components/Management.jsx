@@ -4,64 +4,83 @@ import Main from './Main/Main'
 import styles from './Management.module.scss'
 
 function Management() {
-  const [currentPage, setCurrentPage] = useState('noProject');
-  const [projects, setProjects] = useState([]);
-  const [selectedProject, setSelectedProject] = useState();
-  
-  console.table(projects);
-  console.log(selectedProject);
+    const [currentPage, setCurrentPage] = useState('noProject');
+    const [projects, setProjects] = useState([]);
+    const [selectedProject, setSelectedProject] = useState();
 
-  const sideBarList = projects.map(({id, name}) => ({name, id}))
-  const currentProject = projects.find(({id}) => selectedProject === id)
+    const sideBarList = projects.map(({ id, name }) => ({ name, id }))
+    const currentProject = projects.find(({ id }) => selectedProject === id)
 
-  console.table(currentProject)
+    const handleSetSelectedProject = (id) => {
+        setSelectedProject(id);
 
-  const handleSetSelectedProject = (id) => {
-    setSelectedProject(id);
-  }
-
-  const handleChangePage = (pageName) => {
-    setCurrentPage(pageName);
-  }
-
-  const updateProjects = (action, id, payload = {}) => {
-    setProjects(prevProjects => {
-      if (action === 'add' && payload.name) {
-        return [...prevProjects, payload]
-      } else if (action === 'delete' && id) {
-        return [...prevProjects.filter(({prevProjectId}) => id !== prevProjectId)]
-      }
-    })
-
-    if (action === 'add') {
-      setSelectedProject(payload.id);
-    } else if(action === 'delete') {
-      setSelectedProject()
-    }
-  }
-
-  if (projects.length < 1) {
-    const test = {
-      id: 1,
-      name: 'ProjectName',
-      description: 'Project Description',
-      tasks: []
+        if (id) {
+            setCurrentPage('project');
+        } else {
+            setCurrentPage('noProject');
+        }
     }
 
-    updateProjects('add', test.id, test);
-  }
+    const handleChangePage = (pageName) => {
+        setCurrentPage(pageName);
+        if (pageName !== 'project') {
+            setSelectedProject();
+        }
+    }
 
-  return (
-    <div className={styles.managementContainer}>
-      <Sidebar changePage={handleChangePage} changeProject={handleSetSelectedProject} sideBarList={sideBarList} selectedId={selectedProject}/>
-      <Main 
-        changePage={handleChangePage}
-        page={currentPage}
-        updateProjects={updateProjects} 
-        currentProject={currentProject}  
-      />
-    </div>
-  )
+    const updateProjects = (action, id, payload = {}) => {
+        setProjects(prevProjects => {
+            if (action === 'add' && payload.name) {
+                return [...prevProjects, payload]
+            } else if (action === 'delete' && id) {
+                return [...prevProjects.filter(({ id: prevProjectId }) => id !== prevProjectId)]
+            } else if (action === 'addTask' && id) {
+                return prevProjects.map((project) => {
+                    if (id === project.id) {
+                        const tasks = [...project.tasks, payload]
+                        return { ...project, tasks }
+                    }
+
+                    return project
+                })
+            } else if (action === 'removeTask' && id) {
+                return prevProjects.map((project) => {
+                    if (id === project.id) {
+                        const tasks = [...project.tasks.filter((_, index) => index !== payload)]
+                        return { ...project, tasks }
+                    }
+
+                    return project
+                })
+            }
+        })
+    }
+
+    const handleProjectManagement = (action, id, payload = {}) => {
+        updateProjects(action, id, payload);
+
+        if (action === 'add') {
+            handleSetSelectedProject(payload.id);
+        } else if (action === 'delete') {
+            handleSetSelectedProject()
+        }
+    }
+
+    return (
+        <div className={styles.managementContainer}>
+            <Sidebar 
+                changePage={handleChangePage}
+                changeProject={handleSetSelectedProject}
+                sideBarList={sideBarList} 
+                selectedId={selectedProject} />
+            <Main
+                changePage={handleChangePage}
+                page={currentPage}
+                updateProjects={handleProjectManagement}
+                currentProject={currentProject}
+            />
+        </div>
+    )
 }
 
 export default Management

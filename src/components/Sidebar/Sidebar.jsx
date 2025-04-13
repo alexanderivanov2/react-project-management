@@ -1,7 +1,12 @@
 import React from 'react'
 import styles from './Sidebar.module.scss'
 
-function Sidebar({ changePage, changeProject, sideBarList, selectedId }) {
+function Sidebar({ changePage, changeProject, sideBarList, selectedId, selectProject }) {
+  const handleSelectProject = (id) => {
+    // console.log(id)
+    // changePage('project', id)
+    changeProject(id)
+  }
   return (
     <div className={styles.sidebarContainer}>
       <div className={styles.sidebarContent}>
@@ -12,7 +17,7 @@ function Sidebar({ changePage, changeProject, sideBarList, selectedId }) {
             <button 
               key={id} 
               className={`${styles.sidebarBtn} ${selectedId === id ? styles.active : ''}`}
-              onClick={() => changeProject(id)}
+              onClick={() => handleSelectProject(id)}
               >
                 {name}
               </button>
