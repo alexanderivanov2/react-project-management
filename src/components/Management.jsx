@@ -28,36 +28,25 @@ function Management() {
         }
     }
 
-    const updateProjects = (action, id, payload = {}) => {
+    const updateProjectState = (action, id, payload = {}) => {
         setProjects(prevProjects => {
-            if (action === 'add' && payload.name) {
-                return [...prevProjects, payload]
-            } else if (action === 'delete' && id) {
-                return [...prevProjects.filter(({ id: prevProjectId }) => id !== prevProjectId)]
-            } else if (action === 'addTask' && id) {
-                return prevProjects.map((project) => {
-                    if (id === project.id) {
-                        const tasks = [...project.tasks, payload]
-                        return { ...project, tasks }
-                    }
-
-                    return project
-                })
-            } else if (action === 'removeTask' && id) {
-                return prevProjects.map((project) => {
-                    if (id === project.id) {
-                        const tasks = [...project.tasks.filter((_, index) => index !== payload)]
-                        return { ...project, tasks }
-                    }
-
-                    return project
-                })
+            switch (action) {
+                case 'add':
+                    return [...prevProjects, payload];
+                case 'delete':
+                    return [...prevProjects.filter(({ id: prevProjectId }) => id !== prevProjectId)];
+                case 'addTask':
+                    return prevProjects.map(p => p.id === id ? { ...p, tasks: [...p.tasks, payload] } : p);
+                case 'removeTask':
+                    return prevProjects.map(p => p.id === id ? { ...p, tasks: p.tasks.filter((_, i) => i !== payload) } : p);
+                default:
+                    return prevProjects;
             }
         })
     }
 
-    const handleProjectManagement = (action, id, payload = {}) => {
-        updateProjects(action, id, payload);
+    const handleProjectAction = (action, id, payload = {}) => {
+        updateProjectState(action, id, payload);
 
         if (action === 'add') {
             handleSetSelectedProject(payload.id);
@@ -68,15 +57,15 @@ function Management() {
 
     return (
         <div className={styles.managementContainer}>
-            <Sidebar 
+            <Sidebar
                 changePage={handleChangePage}
                 changeProject={handleSetSelectedProject}
-                sideBarList={sideBarList} 
+                sideBarList={sideBarList}
                 selectedId={selectedProject} />
             <Main
                 changePage={handleChangePage}
                 page={currentPage}
-                updateProjects={handleProjectManagement}
+                updateProjectState={handleProjectAction}
                 currentProject={currentProject}
             />
         </div>

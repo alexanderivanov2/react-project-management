@@ -1,22 +1,22 @@
 import {useRef} from 'react'
 import styles from './Main.module.scss'
 
-function Project({currentProject, updateProjects}) {
+function Project({currentProject, updateProjectState}) {
     const taskRef = useRef();
     const { id, name, description, dueDate, tasks} = currentProject;
 
     const handleDeleteProject = () => {
-        updateProjects('delete', id)
+        updateProjectState('delete', id)
     }
     const handleAddTask = (e) => {
         e.preventDefault();
         const task = taskRef.current.value
-        updateProjects('addTask', id, task)
+        updateProjectState('addTask', id, task)
     }
 
     const handleDeleteTask = (index) => {
         console.log(index);
-        updateProjects('removeTask', id, index);
+        updateProjectState('removeTask', id, index);
     }
     return (
         <div className={`${styles.mainWrapper} ${styles.projectMain}`}>

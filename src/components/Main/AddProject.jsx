@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import styles from './Main.module.scss'
-function AddProject({changePage, updateProjects}) {
+function AddProject({changePage, updateProjectState}) {
     const projectTitleRef = useRef();
     const projectDescriptionRef = useRef();
     const projectDueDateRef = useRef();
@@ -24,7 +24,7 @@ function AddProject({changePage, updateProjects}) {
             tasks: [],
         }
 
-        updateProjects('add', newProject.id, newProject);
+        updateProjectState('add', newProject.id, newProject);
         changePage('project');
     }
     return (
