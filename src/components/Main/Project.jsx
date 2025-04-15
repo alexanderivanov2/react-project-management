@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import styles from './Main.module.scss'
+import Input from './Input';
 
 function Project({ currentProject, updateProjectState }) {
     const taskRef = useRef();
@@ -30,7 +31,7 @@ function Project({ currentProject, updateProjectState }) {
             <div className={styles.breakLine}></div>
             <form action="" onSubmit={handleAddTask}>
                 <h4 className={`${styles.mainTitle}`}>Tasks</h4>
-                <input ref={taskRef} type="text" className={styles.addTaskInput} />
+                <Input ref={taskRef} type="text" className={styles.addTaskInput} ></Input>
                 <button className={`${styles.mainBtn}`} type='submit'>Add Task</button>
             </form>
             <div className={styles.projectList}>

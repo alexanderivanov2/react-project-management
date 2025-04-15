@@ -1,5 +1,6 @@
 import React, { useRef } from 'react'
 import styles from './Main.module.scss'
+import Input from './Input';
 function AddProject({changePage, updateProjectState}) {
     const projectTitleRef = useRef();
     const projectDescriptionRef = useRef();
@@ -34,18 +35,15 @@ function AddProject({changePage, updateProjectState}) {
                     <button className={`${styles.mainBtn}`} onClick={handleCancel}>Cancel</button>
                     <button className={`${styles.mainBtn} ${styles.mainPrimaryBtn}`} onClick={handleSubmit}>Save</button>
                 </div>
-                <fieldset>
+                <Input type="text" name="projectTitle" id='projectTitle' ref={projectTitleRef}>
                     <label htmlFor="projectTitle">Title</label>
-                    <input type="text" name="projectTitle" id='projectTitle' ref={projectTitleRef}/>
-                </fieldset>
-                <fieldset>
+                </Input>
+                <Input name="projectDescription" id="projectDescription" ref={projectDescriptionRef} textarea>
                     <label htmlFor="projectDescription">Description</label>
-                    <textarea name="projectDescription" id="projectDescription" ref={projectDescriptionRef}></textarea>
-                </fieldset>
-                <fieldset>
-                    <label htmlFor="projectDueDate">Due Date</label>
-                    <input type="date" name="projectDueDate" id="projectDueDate"  ref={projectDueDateRef}/>
-                </fieldset>
+                </Input>
+                <Input type="date" name="projectDueDate" id="projectDueDate"  ref={projectDueDateRef}>
+                    <label htmlFor="projectDueDate">Due Date</label>     
+                </Input>
             </form>
         </div>
     )
